@@ -39,7 +39,7 @@ logging.basicConfig(level=logging.DEBUG)
 # assorted libraries
 SERVICE_VERSION = 'v1'
 APOD_METHOD_NAME = 'apod'
-ALLOWED_APOD_FIELDS = ['concept_tags', 'date', 'hd', 'count', 'start_date', 'end_date', 'thumbs']
+ALLOWED_APOD_FIELDS = ['api_key', 'concept_tags', 'date', 'hd', 'count', 'start_date', 'end_date', 'thumbs']
 ALCHEMY_API_KEY = os.environ.get('ALCHEMY_API_KEY', None)
 RESULTS_DICT = dict([])
 if ALCHEMY_API_KEY is None:

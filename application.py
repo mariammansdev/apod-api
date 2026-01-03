@@ -23,6 +23,7 @@ from flask import request, jsonify, render_template, Flask, current_app
 from flask_cors import CORS
 from apod.utility import parse_apod, get_concepts
 import logging
+import os
 
 #### added by justin for EB
 #from wsgiref.simple_server import make_server
@@ -39,14 +40,14 @@ logging.basicConfig(level=logging.DEBUG)
 SERVICE_VERSION = 'v1'
 APOD_METHOD_NAME = 'apod'
 ALLOWED_APOD_FIELDS = ['concept_tags', 'date', 'hd', 'count', 'start_date', 'end_date', 'thumbs']
-ALCHEMY_API_KEY = None
+ALCHEMY_API_KEY = os.environ.get('ALCHEMY_API_KEY', None)
 RESULTS_DICT = dict([])
-try:
-    with open('alchemy_api.key', 'r') as f:
-        ALCHEMY_API_KEY = f.read()
-#except FileNotFoundError:
-except IOError:
-     LOG.info('WARNING: NO alchemy_api.key found, concept_tagging is NOT supported')
+if ALCHEMY_API_KEY is None:
+    try:
+        with open('alchemy_api.key', 'r') as f:
+            ALCHEMY_API_KEY = f.read().strip()
+    except IOError:
+        LOG.info('WARNING: NO alchemy_api.key found, concept_tagging is NOT supported')
 
 
 def _abort(code, msg, usage=True):
